@@ -1,4 +1,4 @@
--- a. Datewise Likelihood of dying due to Covid total cases vs total death in India
+-- a. Datewise Likelihood of dying due to Covid total cases vs total death in Malaysia
 SELECT 
 	date, 
 	total_cases, 
