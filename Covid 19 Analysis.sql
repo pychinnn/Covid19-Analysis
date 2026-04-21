@@ -4,14 +4,14 @@ SELECT
 	total_cases, 
 	total_deaths 
 FROM "CovidDeaths" 
-WHERE location LIKE '%India%';
+WHERE location LIKE '%Malaysia%';
 
--- b. Total % of deaths out of entire population in India
--- population is a character, that is why we need to convert it into number
+
+-- b. Total % of deaths out of entire population in Malaysia (0.11%)
 SELECT 
 	(MAX(total_deaths)/AVG(population::numeric)*100) 
 FROM "CovidDeaths" 
-WHERE location LIKE '%India%';
+WHERE location LIKE '%Malaysia%';
 
 
 -- c. Verify b by getting info separately
@@ -19,7 +19,7 @@ SELECT
 	population, 
 	total_deaths 
 FROM "CovidDeaths" 
-WHERE location LIKE '%India%';
+WHERE location LIKE '%Malaysia%';
 
 -- d. Country with highest death as a % of population
 SELECT 
@@ -27,20 +27,24 @@ SELECT
 	(MAX(total_deaths)/AVG(population::numeric)*100) AS death_percentage 
 FROM "CovidDeaths" 
 GROUP BY location 
-ORDER BY death_percentage;
+ORDER BY death_percentage DESC;
 
--- e. Total % of Covid positive cases in India
+
+-- e. Total % of Covid positive cases in Malaysia (14.94%)
 SELECT 
 	(MAX(total_cases)/AVG(population::numeric)*100) 
 FROM "CovidDeaths" 
-WHERE location LIKE '%India%';
+WHERE location LIKE '%Malaysia%';
+
 
 -- f. Country wise total % of Covid positive cases in the world
 SELECT 
 	location, 
 	(MAX(total_cases)/AVG(population::numeric)*100) AS case_percentage 
 FROM "CovidDeaths" 
-GROUP BY location; 
+GROUP BY location
+ORDER BY case_percentage DESC; 
+
 
 -- g. Continent wise positive cases
 SELECT 
@@ -58,6 +62,7 @@ FROM (
 GROUP BY continent
 ORDER BY total_continent_cases DESC;
 
+
 -- h. Continent wise deaths
 SELECT 
     continent, 
@@ -74,14 +79,16 @@ FROM (
 GROUP BY continent
 ORDER BY total_continent_deaths DESC;
 
--- i. Daily new cases vs hospitalizations vs ICU patients in India
+
+-- i. Daily new cases vs hospitalizations vs ICU patients in Malaysia
 SELECT
 	date,
 	new_cases, 
 	hosp_patients,
 	icu_patients
 FROM "CovidDeaths"
-WHERE location LIKE '%India%';
+WHERE location LIKE '%Malaysia%';
+
 
 -- j. Country wise total vaccinated people are age 65 and above
 SELECT 
@@ -96,6 +103,7 @@ WHERE continent IS NOT NULL
 GROUP BY location
 ORDER BY estimated_vaccinated_65_older DESC;
 
+
 -- k. Country wise total fully vaccinated people
 SELECT 
     location, 
@@ -104,4 +112,5 @@ FROM "CovidVaccinations"
 WHERE continent IS NOT NULL
 GROUP BY location;
 
--- Reference: https://www.youtube.com/watch?v=DGQrV1v8ALU
+
+-- Data source: https://ourworldindata.org/covid-deaths
